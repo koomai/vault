@@ -19,15 +19,15 @@ class Controller extends BaseController
         $minutes 	= implode(',', array_keys(config('vault.minutes')));
 
         $rules = array(
-            'text' 		=> "max:{$max}",
+            'textbox' 		=> "max:{$max}",
             'expire' 	=> "in:{$minutes}",
         );
 
-        $validator = $validator->make($request->all(), $rules);
+        $v = $validator->make($request->all(), $rules);
 
         // Currently Laravel can't check for required on an empty string (like the honeypot)
         // so we have to do that check ourselves. (Input::has also doesn't work)
-        if( ! $validator->fails())
+        if( ! $v->fails())
         {
             // We're going to encrypt again as a second line of defence should
             // there be a vulnerability with the JS encryption lib.
@@ -40,10 +40,10 @@ class Controller extends BaseController
             $cache->put($key, $text, $request->get('expire'));
 
             // Return the generated URL
-            return response(URL::to("view/{$key}"), 200);
+            return response(url("view/{$key}"), 200);
         }
 
-        return responsejson($validator->messages(), 400);
+        return response($v->messages(), 400)->header('Content-Type', 'json');
     }
 
     public function show($key)
