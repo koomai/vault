@@ -1,0 +1,14 @@
+.hidden {
+    display: none;
+}
+
+.ui.modal .footer {
+    background: #efefef;
+    padding: 1rem 2rem;
+    border-top: 1px solid rgba(39,41,43,.15);
+    text-align: right;
+}
+
+#view_body {
+    word-wrap:break-word;
+}
