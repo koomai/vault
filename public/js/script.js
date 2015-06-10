@@ -14,11 +14,9 @@ $.ajaxSetup({
 Vault.init = function() {
 
     Vault.validate();
-    Vault.encrypt();
-    Vault.submitForm();
     Vault.copyToClipboard();
     Vault.decrypt();
-    Vault.close();
+    Vault.closeModal();
 };
 
 Vault.validate = function() {
@@ -51,51 +49,42 @@ Vault.validate = function() {
                     }
                 ]
             }
+        }, {
+            inline: true,
+            onSuccess: function(e) {
+                e.preventDefault();
+                Vault.submitForm();
+            }
         });
-};
-
-Vault.encrypt = function() {
-
 };
 
 Vault.submitForm = function() {
-    $(document).ready(function() {
-        // Encrypt!
-        $('#create_form').submit(function(e) {
-            e.preventDefault();
 
-            // Encrypt!
-            var secure_text = sjcl.encrypt($.trim($('#password').val()), $('#textbox').val());
+    // Encrypt!
+    var secure_text = sjcl.encrypt($.trim($('#password').val()), $('#textbox').val());
 
-            // Base64 encode and add to form
-            $('#text').val($.base64.encode(secure_text));
+    data = {};
+    // Base64 encode and add to data
+    data.text = $.base64.encode(secure_text);
+    data.expire = $('#expire').val();
 
-            // Save it. When we serialize don't send the password and original text to the server.
-            var serialized = $('#create_form input[name!="password"][name!="textbox"], #create_form select').serialize();
-            $.post(Vault.baseUrl, serialized, function(data) {
-                    // Put link in textarea & password in view box
-                    $('#copy_text').val($.trim($('#response_template').html()));
-                    $('#copy_text').val($('#copy_text').val().replace('%link%', data));
-                    $('#copy_text').val($('#copy_text').val().replace('%password%', $.trim($('#password').val())));
+    $.ajax({
+        type : "POST",
+        url: Vault.baseUrl,
+        data: data
+    })
+        .done(function (data){
+            // Put link in textarea & password in view box
+            $('#copy_text').val($.trim($('#response_template').html()));
+            $('#copy_text').val($('#copy_text').val().replace('%link%', data));
+            $('#copy_text').val($('#copy_text').val().replace('%password%', $.trim($('#password').val())));
 
-                    // Show modal with results
-                    $('#results').modal({closable:false}).modal('show');
-                })
-                .error(function() {
-                    $('#results').find('.header').html('');
-                    $('#results').find('.content').html($('#error').html());
-                    // Get Home URL and attach to button to reload page
-                    var url = $('.home').attr('href');
-                    var $button = $('#results').find('button');
-                    $button.on('click', function(){
-                        document.location = url;
-                    });
-                    $button.html('Try again <i class="refresh icon"></i>');
-                    // Show modal with error
-                    $('#results').modal({closable:false}).modal('show');
-                });
+            // Show modal with results
+            $('#results').modal({closable:false}).modal('show');
+        })
+        .fail(function (data){
+            $('#error').slideDown();
         });
-    });
 };
 
 Vault.copyToClipboard = function() {
@@ -103,6 +92,7 @@ Vault.copyToClipboard = function() {
         // Setup copy to clipboard
         ZeroClipboard.config({swfPath: "//ajax.cdnjs.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.swf"});
         var zClip = new ZeroClipboard($("#copy_button"));
+
         zClip.on("ready", function (readyEvent) {
             zClip.on("aftercopy", function (event) {
                 var $button = $('#results').find('button');
@@ -110,7 +100,7 @@ Vault.copyToClipboard = function() {
                 $button.html('Copied! <i class="checkmark icon"></i>');
                 setTimeout(function () {
                     window.location.reload();
-                }, 2000);
+                }, 1200);
             });
         });
     });
@@ -145,7 +135,7 @@ Vault.decrypt = function() {
     });
 };
 
-Vault.close = function() {
+Vault.closeModal = function() {
     $(document).ready(function() {
         // close error
         $('.message').find('.close').on('click', function() {
