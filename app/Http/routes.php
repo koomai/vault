@@ -15,11 +15,11 @@
 $app->configure('vault');
 
 // Routes
-$app->get('/', 'App\Http\Controllers\Controller@index');
+$app->get('/', 'App\Http\Controllers\VaultController@index');
 
-$app->post('/', 'App\Http\Controllers\Controller@store');
+$app->post('/', 'App\Http\Controllers\VaultController@store');
 
-$app->get('/{key}', 'App\Http\Controllers\Controller@show');
+$app->get('view/{key}', 'App\Http\Controllers\VaultController@show');
 
 $app->get('/expired', function() {
     return view('expired');
