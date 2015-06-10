@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Vault</title>
+    <title>{{ trans('vault.copy.heading') }} – {{ trans('vault.copy.sub_heading') }}</title>
     <meta name="viewport" content="width=device-width">
     <meta name="robots" content="noindex, nofollow">
     <meta name="base_url" content="{{ url('/') }}">
@@ -11,7 +11,8 @@
 
     @yield('headers')
 
-    <link type="text/css" rel="stylesheet" media="all" href="{{ $app->url->to('css/semantic.min.css')}}">
+    <link type="text/css" rel="stylesheet" media="all" href="{{ url('css/semantic.min.css')}}">
+    <link type="text/css" rel="stylesheet" media="all" href="{{ url('css/style.css')}}">
     <link rel="icon" type="image/png" href="favicon.png">
     @if(config('vault.google_analytics'))
         <script type="text/javascript">
@@ -34,21 +35,21 @@
     <div class="eleven wide column">
         <div class="ui blue segment" style="min-height:300px">
             <h1 style="margin-top:0">
-                <a class="home" href="{{ $app->url->to('/')}}">{{ trans('vault.heading') }} <i class="lock icon"></i></a>
+                <a class="home" href="{{ url('/') }}" title="Home">{{ trans('vault.copy.heading') }} <i class="lock icon"></i></a>
             </h1>
-            <h4 class="ui dividing header" style="margin-top: 0">{{ trans('vault.text_info') }} </h4>
+            <h4 class="ui dividing header" style="margin-top: 0">{{ trans('vault.copy.sub_heading') }} </h4>
             @yield('page')
         </div>
     </div>
     <div class="five wide column">
         <div class="ui tertiary segment">
-            <p>{{ trans('vault.intro') }}</p>
-            <p>{{ trans('vault.intro2') }}</p>
-            <p>{{ trans('vault.great') }}</p>
+            <p>{{ trans('vault.sidebar.intro') }}</p>
+            <p>{{ trans('vault.sidebar.intro2') }}</p>
+            <p>{{ trans('vault.sidebar.intro3') }}</p>
         </div>
     </div>
     <div class="twelve wide column">
-        {{ trans('vault.footer', array('year'=>date('Y'))) }}
+        {!! trans('vault.copy.footer') !!}
     </div>
 </div>
 
