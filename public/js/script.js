@@ -1,7 +1,7 @@
 var Vault = {};
 
 // Base Url
-Vault.baseUrl = $('meta[name="base_url"]').attr('content');
+Vault.baseUrl = "/";
 
 // CSRF token for Ajax requests
 $.ajaxSetup({
@@ -90,18 +90,14 @@ Vault.submitForm = function() {
 Vault.copyToClipboard = function() {
     $(document).ready(function() {
         // Setup copy to clipboard
-        ZeroClipboard.config({swfPath: "//ajax.cdnjs.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.swf"});
-        var zClip = new ZeroClipboard($("#copy_button"));
-
-        zClip.on("ready", function (readyEvent) {
-            zClip.on("aftercopy", function (event) {
-                var $button = $('#results').find('button');
-                $button.removeClass('blue').addClass('green');
-                $button.html('Copied! <i class="checkmark icon"></i>');
-                setTimeout(function () {
-                    window.location.reload();
-                }, 1200);
-            });
+        var clipboard = new Clipboard("#copy_button");
+        clipboard.on("success", function (event) {
+            var $button = $('#results').find('button');
+            $button.removeClass('blue').addClass('green');
+            $button.html('Copied! <i class="checkmark icon"></i>');
+            setTimeout(function () {
+                window.location.reload();
+            }, 1200);
         });
     });
 };

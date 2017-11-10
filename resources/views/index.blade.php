@@ -2,7 +2,7 @@
 
 @section('page')
 
-    <form method="POST" action="{{ $app->url->to('/') }}" class="ui form" novalidate>
+    <form method="POST" action="/" class="ui form" novalidate>
         <div class="field">
             <label>{{ trans('vault.form.text_label') }}</label>
             <textarea name="textbox" id="textbox" placeholder="{{ trans('vault.form.text_placeholder') }}"required></textarea>
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="footer">
-            <button class="ui right labeled button icon blue" id="copy_button" data-clipboard-target="copy_text">
+            <button class="ui right labeled button icon blue" id="copy_button" data-clipboard-target="#copy_text">
                 {{ trans('vault.copy_to_clipboard') }}
                 <i class="copy icon"></i>
             </button>
