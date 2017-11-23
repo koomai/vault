@@ -6,13 +6,13 @@
     <title>{{ trans('vault.copy.heading') }} – {{ trans('vault.copy.sub_heading') }}</title>
     <meta name="viewport" content="width=device-width">
     <meta name="robots" content="noindex, nofollow">
-    <meta name="base_url" content="{{ url('/') }}">
+    <meta name="base_url" content="/">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @yield('headers')
 
-    <link type="text/css" rel="stylesheet" media="all" href="{{ url('css/semantic.min.css')}}">
-    <link type="text/css" rel="stylesheet" media="all" href="{{ url('css/style.css')}}">
+    <link type="text/css" rel="stylesheet" media="all" href="/css/semantic.min.css">
+    <link type="text/css" rel="stylesheet" media="all" href="/css/style.css">
     <link rel="icon" type="image/png" href="favicon.png">
     @if(config('vault.google_analytics'))
         <script type="text/javascript">
@@ -35,7 +35,7 @@
     <div class="eleven wide column">
         <div class="ui blue segment" style="min-height:300px">
             <h1 style="margin-top:0">
-                <a class="home" href="{{ url('/') }}" title="Home">{{ trans('vault.copy.heading') }} <i class="lock icon"></i></a>
+                <a class="home" href="/" title="Home">{{ trans('vault.copy.heading') }} <i class="lock icon"></i></a>
             </h1>
             <h4 class="ui dividing header" style="margin-top: 0">{{ trans('vault.copy.sub_heading') }} </h4>
             @yield('page')
@@ -56,7 +56,7 @@
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/js/jquery.base64.js"></script>
 <script type="text/javascript" src="/js/semantic.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.min.js"></script>
+<script type="text/javascript" src="/js/clipboard.min.js"></script>
 <script type="text/javascript" src="/js/sjcl.js"></script>
 <script type="text/javascript" src="/js/script.js"></script>
 
